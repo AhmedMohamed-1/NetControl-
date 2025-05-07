@@ -1,0 +1,90 @@
+﻿@using Code_Generator_Web_App.Models
+@model Code 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/css/site.css?v=@DateTime.Now.Ticks" rel="stylesheet" /> 
+    <title>Generate Code</title>
+</head>
+<body>
+  <div class="container" id="Outer">
+     <div class="container">
+       <h2>Generate Code</h2>
+     <form method="post" asp-action="GenerateCode">
+         <label class="label">Enter the duration you want to open:</label>
+         <input type="number" id="duration" name="Duration" placeholder="Minutes (min 5)" max="1440" min="5" required />
+         <div class="note">Max: 1440 minutes</div>
+         <button type="submit" class="generate-btn">Generate</button>
+     </form>
+     
+     <div class="code-section">
+         @if (Model?.TheCode != null)
+         {
+             <div class="code-box" id="code">@Model.TheCode</div>
+             <button class="copy-btn" onclick="copyCode()">Copy</button>
+         }
+         else
+         {
+             <div class="code-box" id="code">Code</div>
+             <button class="copy-btn" onclick="copyCode()">Copy</button>
+         }
+     </div>
+         @if (Model?.TheCode != null)
+         {
+             <input type="hidden" id="startTime" value="@Model.StartTime.ToString("o")" />
+             <input type="hidden" id="duration" value="@Model.Duration" />
+         }
+       <div class="time-left" id="timeLeft">Time Left: 00:00</div>
+     </div>
+</div>
+
+<script>
+    function copyCode() {
+        var codeText = document.getElementById('code').innerText;
+        var tempInput = document.createElement('input');
+        tempInput.value = codeText;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        alert("Code copied to clipboard!");
+    }
+
+    // Countdown Timer Logic
+    window.addEventListener('DOMContentLoaded', function () {
+        var startTimeInput = document.getElementById('startTime');
+        var durationInput = document.querySelector('input[id="duration"][type="hidden"]');
+        var timeLeftElement = document.getElementById('timeLeft');
+
+        if (startTimeInput && durationInput && timeLeftElement) {
+            var startTime = new Date(startTimeInput.value);
+            var durationMinutes = parseInt(durationInput.value);
+
+            var endTime = new Date(startTime.getTime() + durationMinutes * 60 * 1000);
+
+            function updateCountdown() {
+                var now = new Date();
+                var remaining = endTime - now;
+
+                if (remaining > 0) {
+                    var minutes = Math.floor(remaining / (60 * 1000));
+                    var seconds = Math.floor((remaining % (60 * 1000)) / 1000);
+                    timeLeftElement.textContent = `Time Left: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                } else {
+                    timeLeftElement.textContent = 'Time Left: 00:00';
+                    clearInterval(timer);
+                }
+            }
+
+            updateCountdown(); // Run immediately
+            var timer = setInterval(updateCountdown, 1000);
+        }
+    });
+</script>
+</body>
+</html>
