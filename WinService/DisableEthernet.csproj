@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-DisableEthernet-e277c8c6-0902-4c0f-91cd-85b64fd3d749</UserSecretsId>
+	  <!-- WHY NOT READING THIS AND REMOVING WARNINGS ?-->
+    <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="9.0.3" />
+    <PackageReference Include="System.Management" Version="9.0.3" />
+  </ItemGroup>
+</Project>
