@@ -216,7 +216,7 @@ namespace Internet
 
         public Code GetCode(string code)
         {
-            string connectionString = "Server=db18170.public.databaseasp.net; Database=db18170; User Id=db18170; Password=D!n9mA8@_sL7; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;";
+            string connectionString = "YOUR_CONNECTION_STRING_HERE";
 
             string query = "SELECT TOP 1 * FROM Codes WHERE TheCode = @code AND Status = 1";
 
